@@ -1,0 +1,10 @@
+query getAccountInfo {
+  getAccountInfo {
+    version
+    isProduction
+    userEmail
+    userRol
+    accountCode
+    register
+  }
+}

@@ -5,3 +5,12 @@ export interface modalTabs {
   label: string
 }
 export type modalSections = 'home' | 'workspace' | 'TODO'
+
+export interface accountInfo {
+  version: string
+  isProduction: boolean
+  userEmail: string
+  userRol: string
+  accountCode: string
+  register: string
+}

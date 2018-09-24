@@ -1,20 +1,16 @@
 import * as React from 'react'
 import { Tab, IconCloseAlt } from 'gocommerce.styleguide'
-import { modalSections, modalTabs } from '../types'
+import { modalSections, modalTabs, accountInfo } from '../types'
 import Workspace from './workspace'
+import Home from './home'
 
-const Contet = (props: { currentTab: modalSections }) =>
-  (props.currentTab === 'home' && (
-    <div className="g-ph2 g-pv4">
-      <div className="g-pa4">
-        Welcome to Dev-Helper this plugIn will help you to develop apps at the GoCommerce enviroment
-      </div>
-    </div>
-  )) ||
+const Contet = (props: { currentTab: modalSections; accountInfo: accountInfo }) =>
+  (props.currentTab === 'home' && <Home accountInfo={props.accountInfo} />) ||
   (props.currentTab === 'workspace' && <Workspace />)
 
 export interface ModalProps {
-  toggle: Function
+  accountInfo: accountInfo
+  toggle: () => {}
 }
 
 export interface ModalState {
@@ -29,7 +25,8 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
   handleTabChange = (newTab: modalSections) => this.setState({ currentTab: newTab })
 
   public render() {
-    const { toggle } = this.props
+    const { toggle, accountInfo } = this.props
+    console.log(`accountInfoaccountInfo`, accountInfo)
     const { currentTab } = this.state
     const list: modalTabs[] = [
       {
@@ -53,7 +50,7 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
             <IconCloseAlt class="c-primary" />
           </div>
         </div>{' '}
-        <Contet currentTab={currentTab} />
+        <Contet currentTab={currentTab} accountInfo={accountInfo} />
       </div>
     )
   }

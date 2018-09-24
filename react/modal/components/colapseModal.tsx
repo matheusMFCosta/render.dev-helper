@@ -31,6 +31,7 @@ export default class ColapseModalProps extends React.Component<ColapseModalProps
     }
     message.match(/^(\[build\]).*(Build).*(start).*$/gi) && this.handleStateChange('loading')
 
+    message.match(/^(\[render\]).*(Component).*(updated).*$/gi) && this.handleStateChange('success')
     message.match(/^(\[render\]).*(Connect).*(success).*$/gi) && this.handleStateChange('success')
     message.match(/\[build\].*success/) && this.handleStateChange('success')
 

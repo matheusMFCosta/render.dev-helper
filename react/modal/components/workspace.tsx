@@ -7,10 +7,11 @@ export interface WorkspaceProps {}
 
 export interface WorkspaceState {
   currentWorkspace: string
+  showReloadMessage: boolean
 }
 
 export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
-  state = { currentWorkspace: '' }
+  state = { currentWorkspace: '', showReloadMessage: false }
 
   componentDidMount() {
     const cookies = Cookies.get()
@@ -20,13 +21,15 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
 
   saveNewWorkspace = cookieValue => {
     if (cookieValue) {
+      this.setState({ showReloadMessage: true })
+      location.reload()
       Cookies.remove('VtexWorkspace')
       Cookies.set('VtexCustomWorkspace', cookieValue.trim())
     }
   }
 
   public render() {
-    const { currentWorkspace } = this.state
+    const { currentWorkspace, showReloadMessage } = this.state
     return (
       <div className="g-pa4">
         <div className="g-mb2">
@@ -44,6 +47,7 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
             )}
           </StringValue>
         </div>
+        {showReloadMessage && <span className="c-primary">We are reloading the page</span>}
       </div>
     )
   }

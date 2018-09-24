@@ -1,6 +1,23 @@
+type userErrors {
+  message: String
+  type: String
+  showAlert: Boolean
+  data: String
+}
+
+type GetAccountInfo {
+  version: String
+  isProduction: Boolean
+  userEmail: String
+  userRol: String
+  accountCode: String
+  register: String
+}
 
 type Query {
+  getAccountInfo: GetAccountInfo
 }
 
 type Mutation {
+  nada: String
 }
