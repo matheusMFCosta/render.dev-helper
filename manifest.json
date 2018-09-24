@@ -1,0 +1,23 @@
+{
+  "name": "dev-helper",
+  "vendor": "gocommerce",
+  "version": "0.0.1",
+  "title": "Dev Helper",
+  "description": "",
+  "mustUpdateAt": "2019-02-08",
+  "categories": [],
+  "registries": ["smartcheckout", "gocommerce"],
+  "settingsSchema": {},
+  "dependencies": {
+    "gocommerce.gc-utils": "0.x",
+    "gocommerce.styleguide": "0.x"
+  },
+  "credentialType": "absolute",
+  "builders": {
+    "graphql": "1.x",
+    "pages": "0.x",
+    "react": "2.x",
+    "node": "3.x"
+  },
+  "policies": []
+}

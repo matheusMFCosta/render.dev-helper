@@ -1,0 +1,16 @@
+{
+  "pages": {
+    "admin/dev-helper": {
+      "path": "/admin/dev-helper",
+      "extensible": true
+    }
+  },
+  "extensions": {
+    "admin/dev-helper": {
+      "component": "index"
+    },
+    "admin/dev-helper.Modal/dev-helper": {
+      "component": "index"
+    }
+  }
+}
