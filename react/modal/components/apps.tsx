@@ -23,18 +23,21 @@ class Apps extends React.Component<AppsProps, AppsState> {
     const LinkedApps = this.getLinkedApps(this.props.getInstalledApps) || []
     const serachSelectObject = this.buildSearchSelect(this.props.getInstalledApps) || []
     const installedApps = this.getInstalledApps(this.props.getInstalledApps)
-    console.log(`serachSelectObject`, serachSelectObject)
 
     return (
       <div>
         <div className="g-ph2 g-mt6">
           <span className=" fw7 c-on-base-2">Linked Apps </span>
           <div>
-            {LinkedApps.map(element => (
-              <div className="w-50 dib g-ph2">
-                <Input className="w-100" label={element.name} disabled value={element.version.split('+')[0]} />
-              </div>
-            ))}
+            {LinkedApps.length === 0 ? (
+              <div className="w-50 dib g-ph2">'None'</div>
+            ) : (
+              LinkedApps.map(element => (
+                <div className="w-50 dib g-ph2">
+                  <Input className="w-100" label={element.name} disabled value={element.version.split('+')[0]} />
+                </div>
+              ))
+            )}
           </div>
         </div>
         <div className="g-pa2 g-mt6">
@@ -50,7 +53,6 @@ class Apps extends React.Component<AppsProps, AppsState> {
                 />
 
                 {value &&
-                  (console.log(installedApps, value),
                   (
                     <div className="">
                       <div className="w-50 dib g-ph2">
@@ -94,20 +96,6 @@ class Apps extends React.Component<AppsProps, AppsState> {
     )
   }
 }
-
-// categories: string[]
-// credentialType: string
-// description: string
-// id: string
-// link: string
-// name: string
-// title: string
-// vendor: string
-// version: string
-// __typename: string
-// _activationDate: string
-// _id: string
-// _link: string
 
 export default props => (
   <Query query={query} variables={{ category: 'wooow' }}>

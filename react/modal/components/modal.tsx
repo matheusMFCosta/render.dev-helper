@@ -30,7 +30,6 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
 
   public render() {
     const { toggle, accountInfo } = this.props
-    console.log(`accountInfoaccountInfo`, accountInfo)
     const { currentTab } = this.state
     const list: modalTabs[] = [
       {

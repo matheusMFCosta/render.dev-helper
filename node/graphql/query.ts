@@ -19,11 +19,9 @@ export const getAccountInfo = async (param, ctx) => {
   }
 }
 export const getAccountByHost = async (param, ctx) => {
-  console.log(ctx)
   const host = ctx.request.header['x-forwarded-host']
   const url = `/accounts/search?host=${host}`
   const { data, error } = await makeApiCAll(url, ctx, 'get')
-  console.log(`data`, data)
   return data
 }
 

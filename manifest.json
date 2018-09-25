@@ -1,9 +1,9 @@
 {
   "name": "dev-helper",
   "vendor": "gocommerce",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "title": "Dev Helper",
-  "description": "",
+  "description": "A plugIn to assist the development of apps at the GoCommerce enviroment",
   "mustUpdateAt": "2019-02-08",
   "categories": [],
   "registries": ["smartcheckout", "gocommerce"],
