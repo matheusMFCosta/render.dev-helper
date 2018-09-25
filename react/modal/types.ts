@@ -4,7 +4,7 @@ export interface modalTabs {
   id: modalSections
   label: string
 }
-export type modalSections = 'home' | 'workspace' | 'TODO'
+export type modalSections = 'home' | 'workspace' | 'account' | 'apps' | 'TODO'
 
 export interface accountInfo {
   version: string
@@ -13,4 +13,20 @@ export interface accountInfo {
   userRol: string
   accountCode: string
   register: string
+}
+
+export interface appsMap {
+  categories: string[]
+  credentialType: string
+  description: string
+  id: string
+  link: string
+  name: string
+  title: string
+  vendor: string
+  version: string
+  __typename: string
+  _activationDate: string
+  _id: string
+  _link: string
 }

@@ -19,31 +19,45 @@ export default class ColapseModalProps extends React.Component<ColapseModalProps
   state: ColapseModalPropsState = {
     status: 'none'
   }
+  handleStateChange = (newState: colapseModalStatu) => setTimeout(this.setState({ status: newState }), 1500)
 
-  logFn = console.log
-
-  handleStateChange = (newState: colapseModalStatu) => this.setState({ status: newState })
-
-  cslOverwrite = body => {
-    const message = body[0]
-    if (!message || (message && !message.match)) {
-      return
+  eventListener(eventBuffer) {
+    const wow = String.fromCharCode.apply(null, new Uint8Array(eventBuffer))
+    try {
+      const ppp = wow.slice(6)
+      const json = JSON.parse(ppp)
+      switch (json.body.code) {
+        case 'start':
+          this.handleStateChange('loading')
+          break
+        case 'success':
+          this.handleStateChange('success')
+          break
+        case 'fail':
+          this.handleStateChange('error')
+          break
+      }
+    } catch {
+      //console.log(``)
     }
-    message.match(/^(\[build\]).*(Build).*(start).*$/gi) && this.handleStateChange('loading')
-
-    message.match(/^(\[render\]).*(Component).*(updated).*$/gi) && this.handleStateChange('success')
-    message.match(/^(\[render\]).*(Connect).*(success).*$/gi) && this.handleStateChange('success')
-    message.match(/\[build\].*success/) && this.handleStateChange('success')
-
-    message.match(/\[build\].*fail/) && this.handleStateChange('error')
-    message.match(/^(\[render\]).*(Connect).*(fail).*$/gi) && this.handleStateChange('error')
   }
 
   componentDidMount() {
-    console.log = (...body) => {
-      this.logFn(...body)
-      this.cslOverwrite(body)
-    }
+    const eventListener = event => this.eventListener(event)
+    fetch(
+      'https://gocommerce.gocommerce.com/_v/sse/vtex.builder-hub:*:react2,pages0,build.status?workspace=matheus03'
+    ).then(response => {
+      var reader = response.body.getReader()
+      var bytesReceived = 0
+      return reader.read().then(function processResult(result) {
+        if (result.done) {
+          return
+        }
+        eventListener(result.value.buffer)
+        bytesReceived += result.value.length
+        return reader.read().then(processResult)
+      })
+    })
   }
 
   public render() {

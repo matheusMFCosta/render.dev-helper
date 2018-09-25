@@ -1,7 +1,7 @@
 {
   "name": "dev-helper",
   "vendor": "gocommerce",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "title": "Dev Helper",
   "description": "",
   "mustUpdateAt": "2019-02-08",
@@ -9,6 +9,7 @@
   "registries": ["smartcheckout", "gocommerce"],
   "settingsSchema": {},
   "dependencies": {
+    "vtex.apps-graphql": "2.x",
     "gocommerce.gc-utils": "0.x",
     "gocommerce.styleguide": "0.x"
   },
@@ -19,5 +20,25 @@
     "react": "2.x",
     "node": "3.x"
   },
-  "policies": []
+  "policies": [
+    {
+      "name": "outbound-access",
+      "attrs": {
+        "host": "api.gocommerce.com",
+        "path": "*"
+      }
+    },
+    {
+      "name": "link-apps"
+    },
+    {
+      "name": "read-workspace-apps"
+    },
+    {
+      "name": "read-private-registry-assets"
+    },
+    {
+      "name": "read-public-registry-assets"
+    }
+  ]
 }

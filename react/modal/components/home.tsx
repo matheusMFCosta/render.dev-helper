@@ -10,7 +10,7 @@ export interface HomeState {}
 //        Welcome to Dev-Helper this plugIn will help you to develop apps at the GoCommerce enviroment
 export default class Home extends React.Component<HomeProps, HomeState> {
   public render() {
-    const { accountCode, isProduction, register, userEmail, userRol, version } = this.props.accountInfo
+    const { accountCode, isProduction, workspace, userEmail, userRol, version } = this.props.accountInfo
     return (
       <div>
         <div className=" flex g-pv4">
@@ -26,7 +26,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             <Input className="w-100" label="Account Code" disabled value={accountCode} />
           </div>
           <div className="w-50 g-ph2">
-            <Input className="w-100" label="Contract" disabled value={register} />
+            <Input className="w-100" label="workspace" disabled value={workspace} />
           </div>
         </div>
         <div className=" flex g-pv4">

@@ -3,10 +3,14 @@ import { Tab, IconCloseAlt } from 'gocommerce.styleguide'
 import { modalSections, modalTabs, accountInfo } from '../types'
 import Workspace from './workspace'
 import Home from './home'
+import Accounts from './account'
+import Apps from './apps'
 
 const Contet = (props: { currentTab: modalSections; accountInfo: accountInfo }) =>
   (props.currentTab === 'home' && <Home accountInfo={props.accountInfo} />) ||
-  (props.currentTab === 'workspace' && <Workspace />)
+  (props.currentTab === 'workspace' && <Workspace />) ||
+  (props.currentTab === 'account' && <Accounts />) ||
+  (props.currentTab === 'apps' && <Apps />)
 
 export interface ModalProps {
   accountInfo: accountInfo
@@ -32,6 +36,14 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
       {
         id: 'home',
         label: 'Home'
+      },
+      {
+        id: 'account',
+        label: 'Account'
+      },
+      {
+        id: 'apps',
+        label: 'Apps'
       },
       {
         id: 'workspace',

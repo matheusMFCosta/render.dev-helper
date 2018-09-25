@@ -1,0 +1,14 @@
+query getAccountByHost {
+  getAccountByHost {
+    contract
+    id
+    title
+    name
+    defaultHost
+    host
+    ownerEmail
+    country
+    isActive
+    defaultLocale
+  }
+}

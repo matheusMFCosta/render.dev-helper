@@ -1,0 +1,16 @@
+query getInstalledApps {
+  getInstalledApps {
+    id
+    _id
+    vendor
+    name
+    version
+    title
+    description
+    categories
+    credentialType
+    link
+    _link
+    _activationDate
+  }
+}

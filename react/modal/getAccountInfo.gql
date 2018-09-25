@@ -5,6 +5,6 @@ query getAccountInfo {
     userEmail
     userRol
     accountCode
-    register
+    workspace
   }
 }
