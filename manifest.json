@@ -1,12 +1,15 @@
 {
   "name": "dev-helper",
   "vendor": "gocommerce",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "title": "Dev Helper",
   "description": "A plugIn to assist the development of apps at the GoCommerce enviroment",
   "mustUpdateAt": "2019-02-08",
   "categories": [],
-  "registries": ["smartcheckout", "gocommerce"],
+  "registries": [
+    "smartcheckout",
+    "gocommerce"
+  ],
   "settingsSchema": {},
   "dependencies": {
     "vtex.apps-graphql": "2.x",
