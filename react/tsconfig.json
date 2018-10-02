@@ -1,4 +1,6 @@
 {
+  "include": ["./*", "./../../@types"],
+  "extends": "./../../@types/tsconfig",
   "compilerOptions": {
     "noImplicitAny": false,
     "module": "commonjs",

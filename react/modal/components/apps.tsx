@@ -30,7 +30,7 @@ class Apps extends React.Component<AppsProps, AppsState> {
           <span className=" fw7 c-on-base-2">Linked Apps </span>
           <div>
             {LinkedApps.length === 0 ? (
-              <div className="w-50 dib g-ph2">'None'</div>
+              <div className="w-50 dib g-ph2 g-pv4">None</div>
             ) : (
               LinkedApps.map(element => (
                 <div className="w-50 dib g-ph2">
@@ -52,42 +52,41 @@ class Apps extends React.Component<AppsProps, AppsState> {
                   onChange={e => set(e.target.value)}
                 />
 
-                {value &&
-                  (
-                    <div className="">
-                      <div className="w-50 dib g-ph2">
-                        <Input className="w-100" label={'Name'} disabled value={installedApps[value].name} />
-                      </div>
-                      <div className="w-50 dib g-ph2">
-                        <Input className="w-100" label={'Title'} disabled value={installedApps[value].title} />
-                      </div>
-                      <div className="w-100 dib g-ph2">
-                        <Input
-                          className="w-100"
-                          label={'Description'}
-                          disabled
-                          value={installedApps[value].description}
-                        />
-                      </div>
-                      <div className="w-50 dib g-ph2">
-                        <Input className="w-100" label={'Version'} disabled value={installedApps[value].version} />
-                      </div>
-                      <div className="w-50 dib g-ph2">
-                        <Input
-                          className="w-100"
-                          label={'ActivationDate'}
-                          disabled
-                          value={installedApps[value]._activationDate}
-                        />
-                      </div>
-                      <div className="w-50 dib g-ph2">
-                        <Input className="w-100" label={'Linked'} disabled value={!!installedApps[value].link} />
-                      </div>
-                      <div className="w-50 dib g-ph2">
-                        <Input className="w-100" label={'Vendor'} disabled value={installedApps[value].vendor} />
-                      </div>
+                {value && (
+                  <div className="">
+                    <div className="w-50 dib g-ph2">
+                      <Input className="w-100" label={'Name'} disabled value={installedApps[value].name} />
                     </div>
-                  ))}
+                    <div className="w-50 dib g-ph2">
+                      <Input className="w-100" label={'Title'} disabled value={installedApps[value].title} />
+                    </div>
+                    <div className="w-100 dib g-ph2">
+                      <Input
+                        className="w-100"
+                        label={'Description'}
+                        disabled
+                        value={installedApps[value].description}
+                      />
+                    </div>
+                    <div className="w-50 dib g-ph2">
+                      <Input className="w-100" label={'Version'} disabled value={installedApps[value].version} />
+                    </div>
+                    <div className="w-50 dib g-ph2">
+                      <Input
+                        className="w-100"
+                        label={'ActivationDate'}
+                        disabled
+                        value={installedApps[value]._activationDate}
+                      />
+                    </div>
+                    <div className="w-50 dib g-ph2">
+                      <Input className="w-100" label={'Linked'} disabled value={!!installedApps[value].link} />
+                    </div>
+                    <div className="w-50 dib g-ph2">
+                      <Input className="w-100" label={'Vendor'} disabled value={installedApps[value].vendor} />
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </StringValue>
