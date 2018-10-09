@@ -1,0 +1,8 @@
+mutation uninstallAppDH($appName: String) {
+  uninstallAppDH(appName: $appName) {
+    error {
+      message
+      code
+    }
+  }
+}

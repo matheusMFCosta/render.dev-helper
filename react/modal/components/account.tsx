@@ -38,7 +38,7 @@ export default class Account extends React.Component<AccountProps, AccountState>
                   <Input className="w-100" label="Is Active" disabled value={isActive} />
                 </div>
                 <div className="w-50 g-ph2">
-                  <Input className="w-100" label="Contractic" disabled value={contract} />
+                  <Input className="w-100" label="Contract" disabled value={contract} />
                 </div>
               </div>
               <div className=" flex g-pv4">

@@ -1,0 +1,8 @@
+mutation unlinkApp($appName: String) {
+  unlinkApp(appName: $appName) {
+    error {
+      message
+      code
+    }
+  }
+}

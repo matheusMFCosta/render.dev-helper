@@ -4,13 +4,15 @@ import { modalSections, modalTabs, accountInfo } from '../types'
 import Workspace from './workspace'
 import Home from './home'
 import Accounts from './account'
+import InstalledApps from './installedApps'
 import Apps from './apps'
 
 const Contet = (props: { currentTab: modalSections; accountInfo: accountInfo }) =>
   (props.currentTab === 'home' && <Home accountInfo={props.accountInfo} />) ||
   (props.currentTab === 'workspace' && <Workspace />) ||
   (props.currentTab === 'account' && <Accounts />) ||
-  (props.currentTab === 'apps' && <Apps />)
+  (props.currentTab === 'apps' && <Apps />) ||
+  (props.currentTab === 'installedApps' && <InstalledApps />)
 
 export interface ModalProps {
   accountInfo: accountInfo
@@ -45,9 +47,14 @@ export default class Modal extends React.Component<ModalProps, ModalState> {
         label: 'Apps'
       },
       {
+        id: 'installedApps',
+        label: 'installedApps'
+      },
+      {
         id: 'workspace',
         label: 'Workspace'
       },
+
       {
         id: 'TODO',
         label: 'TODO'

@@ -1,95 +1,68 @@
 import * as React from 'react'
-import { Query } from 'react-apollo'
+import { Query, Mutation } from 'react-apollo'
 import query from './../getInstalledApp.gql'
+import UnlinkApp from './../unlinkApp.gql'
+import unlinkAllApps from './../unlinkAllApps.gql'
 import { appsMap } from '../types'
-import { StringValue } from 'react-values'
-import { Input, SearchSelect } from 'gocommerce.styleguide'
+import { Input, Button, IconSpinner } from 'gocommerce.styleguide'
 
 export interface AppsProps {
+  loadingQuery: boolean
   getInstalledApps: appsMap[]
+  unLinkApp: ({ variables: object }) => {}
+  unlinkAllApps: () => {}
 }
 
 export interface AppsState {}
 
 class Apps extends React.Component<AppsProps, AppsState> {
   getLinkedApps = (installedApps: appsMap[]) => installedApps && installedApps.filter(next => !!next.link)
-  getInstalledApps = (installedApps: appsMap[]) =>
-    installedApps && installedApps.reduce((prev, next) => ({ ...prev, [next.name]: next }), {})
-  buildSearchSelect = (installedApps: appsMap[]) =>
-    installedApps &&
-    installedApps.reduce((prev, next) => [...prev, { label: `${next.name} - ${next.vendor}`, value: next.name }], [])
+  handleUnlink = async appName => {
+    const {
+      data: { unlinkApp }
+    } = await this.props.unLinkApp({ variables: { appName: appName } })
+    if (!unlinkApp.error) location.reload()
+  }
+  handleUnlinkAll = async () => {
+    const {
+      data: { unlinkAllApps }
+    } = await this.props.unlinkAllApps()
+    if (!unlinkAllApps.error) location.reload()
+  }
 
   public render() {
+    const { loadingQuery } = this.props
     const LinkedApps = this.getLinkedApps(this.props.getInstalledApps) || []
-    const serachSelectObject = this.buildSearchSelect(this.props.getInstalledApps) || []
-    const installedApps = this.getInstalledApps(this.props.getInstalledApps)
 
     return (
       <div>
         <div className="g-ph2 g-mt6">
-          <span className=" fw7 c-on-base-2">Linked Apps </span>
+          <div className="flex justify-between">
+            <span className=" fw7 c-on-base-2">Linked Apps </span>
+            {!(LinkedApps.length === 0) && <Button onClick={() => this.handleUnlinkAll()}>Unlink All</Button>}
+          </div>
           <div>
             {LinkedApps.length === 0 ? (
-              <div className="w-50 dib g-ph2 g-pv4">None</div>
+              <div className="w-50 dib g-ph2 g-pv4">{loadingQuery ? <IconSpinner /> : 'None'}</div>
             ) : (
               LinkedApps.map(element => (
-                <div className="w-50 dib g-ph2">
-                  <Input className="w-100" label={element.name} disabled value={element.version.split('+')[0]} />
+                <div className="w-50 dib g-ph2 ">
+                  <label className="db c-on-base-2 g-mb1 g-f2 lh-copy">{element.name}</label>
+                  <div className="flex">
+                    <Input className="w-70 dib" disabled value={element.version.split('+')[0]} />
+                    <Button
+                      className="dib"
+                      onClick={() =>
+                        this.handleUnlink(`${element.vendor}.${element.name}@${element.version.split('+')[0]}`)
+                      }
+                    >
+                      Unlink
+                    </Button>
+                  </div>
                 </div>
               ))
             )}
           </div>
-        </div>
-        <div className="g-pa2 g-mt6">
-          <StringValue defaultValue="">
-            {({ value, set }) => (
-              <>
-                <span className="fw7 c-on-base-2">Instaled Apps </span>
-                <SearchSelect
-                  className="g-pt2"
-                  placeholder="Select an App"
-                  list={serachSelectObject}
-                  onChange={e => set(e.target.value)}
-                />
-
-                {value && (
-                  <div className="">
-                    <div className="w-50 dib g-ph2">
-                      <Input className="w-100" label={'Name'} disabled value={installedApps[value].name} />
-                    </div>
-                    <div className="w-50 dib g-ph2">
-                      <Input className="w-100" label={'Title'} disabled value={installedApps[value].title} />
-                    </div>
-                    <div className="w-100 dib g-ph2">
-                      <Input
-                        className="w-100"
-                        label={'Description'}
-                        disabled
-                        value={installedApps[value].description}
-                      />
-                    </div>
-                    <div className="w-50 dib g-ph2">
-                      <Input className="w-100" label={'Version'} disabled value={installedApps[value].version} />
-                    </div>
-                    <div className="w-50 dib g-ph2">
-                      <Input
-                        className="w-100"
-                        label={'ActivationDate'}
-                        disabled
-                        value={installedApps[value]._activationDate}
-                      />
-                    </div>
-                    <div className="w-50 dib g-ph2">
-                      <Input className="w-100" label={'Linked'} disabled value={!!installedApps[value].link} />
-                    </div>
-                    <div className="w-50 dib g-ph2">
-                      <Input className="w-100" label={'Vendor'} disabled value={installedApps[value].vendor} />
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
-          </StringValue>
         </div>
       </div>
     )
@@ -97,7 +70,21 @@ class Apps extends React.Component<AppsProps, AppsState> {
 }
 
 export default props => (
-  <Query query={query} variables={{ category: 'wooow' }}>
-    {({ data }) => <Apps {...props} {...data} />}
-  </Query>
+  <Mutation mutation={unlinkAllApps}>
+    {(unlinkAllApps, { loading: allLoadin, called: allCalled, error: allerror }) => (
+      <Mutation mutation={UnlinkApp}>
+        {(unLinkApp, { loading, called, error }) => (
+          <>
+            {(allLoadin || allCalled) && !allerror && <span className="c-primary">We are reloading the page</span>}
+            {(loading || called) && !error && <span className="c-primary">We are reloading the page</span>}
+            <Query query={query} variables={{ category: 'wooow' }}>
+              {({ data, loading }) => (
+                <Apps {...props} {...data} unLinkApp={unLinkApp} loadingQuery={loading} unlinkAllApps={unlinkAllApps} />
+              )}
+            </Query>
+          </>
+        )}
+      </Mutation>
+    )}
+  </Mutation>
 )

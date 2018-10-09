@@ -4,7 +4,7 @@ export interface modalTabs {
   id: modalSections
   label: string
 }
-export type modalSections = 'home' | 'workspace' | 'account' | 'apps' | 'TODO'
+export type modalSections = 'home' | 'workspace' | 'account' | 'apps' | 'installedApps' | 'TODO'
 
 export interface accountInfo {
   version: string

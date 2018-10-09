@@ -1,0 +1,8 @@
+mutation unlinkAllApps {
+  unlinkAllApps {
+    error {
+      message
+      code
+    }
+  }
+}

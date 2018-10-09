@@ -48,6 +48,18 @@ type Query {
   getInstalledApps: [InstalledApp]
 }
 
+type Error {
+  message: String
+  code: String
+}
+
+type MutationType {
+  error: Error
+}
+
 type Mutation {
   nada: String
+  unlinkApp(appName: String): MutationType
+  unlinkAllApps: MutationType
+  uninstallAppDH(appName: String): MutationType
 }
