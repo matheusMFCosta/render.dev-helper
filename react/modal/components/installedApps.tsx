@@ -1,15 +1,21 @@
 import * as React from 'react'
 import { Query, Mutation } from 'react-apollo'
-import query from './../getInstalledApp.gql'
+import query from './../queries/getInstalledApp.gql'
 import { appsMap } from '../types'
 import { StringValue } from 'react-values'
-import uninstallApp from './../uninstallAppDH.gql'
+import installAppDH from './../queries/installAppDH.gql'
+import uninstallApp from './../queries/uninstallAppDH.gql'
 import { Input, SearchSelect, Button } from 'gocommerce.styleguide'
 
 export interface InstalledAppsProps {
   loadingQuery: boolean
   getInstalledApps: appsMap[]
   uninstallApp: (
+    {
+      variables: { appName: string }
+    }
+  ) => {}
+  installApp: (
     {
       variables: { appName: string }
     }
@@ -30,6 +36,12 @@ class InstalledApps extends React.Component<InstalledAppsProps, InstalledAppsSta
     } = await this.props.uninstallApp({ variables: { appName } })
     if (!uninstallAppDH.error) location.reload()
   }
+  handleInstallApp = async (appName: string) => {
+    const {
+      data: { installAppDH }
+    } = await this.props.installApp({ variables: { appName } })
+    if (!installAppDH.error) location.reload()
+  }
 
   public render() {
     const serachSelectObject = this.buildSearchSelect(this.props.getInstalledApps) || []
@@ -37,6 +49,25 @@ class InstalledApps extends React.Component<InstalledAppsProps, InstalledAppsSta
 
     return (
       <div>
+        <div className="g-pa2 g-mt2 w-100">
+          <StringValue defaultValue="">
+            {({ value, set }) => (
+              <>
+                <span className="fw7 c-on-base-2">Install an app </span>
+                <div className="flex g-mt2">
+                  <Input
+                    className="w-70"
+                    placeholder={'{vendorname}.{AppName}@{version}'}
+                    value={value}
+                    onChange={e => set(e.target.value)}
+                  />
+                  <Button onClick={() => this.handleInstallApp(value)}>Install</Button>
+                </div>
+              </>
+            )}
+          </StringValue>
+        </div>
+
         <div className="g-pa2 g-mt6">
           <StringValue defaultValue="">
             {({ value, set }) => (
@@ -105,16 +136,30 @@ class InstalledApps extends React.Component<InstalledAppsProps, InstalledAppsSta
 }
 
 export default props => (
-  <Mutation mutation={uninstallApp}>
-    {(uninstallApp, { loading: UnInloading, called: UnInalled, error: UnInerror }) => (
-      <Query query={query} variables={{ category: 'wooow' }}>
-        {({ data, loading }) => (
-          <>
-            <InstalledApps {...props} {...data} loadingQuery={loading} uninstallApp={uninstallApp} />
-            {(UnInloading || UnInalled) && !UnInerror && <span className="c-primary">We are reloading the page</span>}
-          </>
+  <Mutation mutation={installAppDH}>
+    {(installAppDH, { loading: InInloading, called: InInalled, error: InInerror }) => (
+      <Mutation mutation={uninstallApp}>
+        {(uninstallApp, { loading: UnInloading, called: UnInalled, error: UnInerror }) => (
+          <Query query={query} variables={{ category: 'wooow' }}>
+            {({ data, loading }) => (
+              <>
+                {(InInloading || InInalled) &&
+                  !InInerror && <span className="c-primary">We are reloading the page</span>}
+                {InInerror && <span className="c-danger">App does not exist</span>}
+                <InstalledApps
+                  {...props}
+                  {...data}
+                  loadingQuery={loading}
+                  uninstallApp={uninstallApp}
+                  installApp={installAppDH}
+                />
+                {(UnInloading || UnInalled) &&
+                  !UnInerror && <span className="c-primary">We are reloading the page</span>}
+              </>
+            )}
+          </Query>
         )}
-      </Query>
+      </Mutation>
     )}
   </Mutation>
 )

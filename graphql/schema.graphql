@@ -62,4 +62,6 @@ type Mutation {
   unlinkApp(appName: String): MutationType
   unlinkAllApps: MutationType
   uninstallAppDH(appName: String): MutationType
+  installAppDH(appName: String): MutationType
+  workspaceResetDH(accountName: String, workspaceName: String): MutationType
 }

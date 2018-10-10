@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Query, Mutation } from 'react-apollo'
-import query from './../getInstalledApp.gql'
-import UnlinkApp from './../unlinkApp.gql'
-import unlinkAllApps from './../unlinkAllApps.gql'
+import query from './../queries/getInstalledApp.gql'
+import UnlinkApp from './../queries/unlinkApp.gql'
+import unlinkAllApps from './../queries/unlinkAllApps.gql'
 import { appsMap } from '../types'
 import { Input, Button, IconSpinner } from 'gocommerce.styleguide'
 

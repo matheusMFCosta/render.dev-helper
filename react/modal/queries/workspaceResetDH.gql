@@ -1,0 +1,8 @@
+mutation workspaceResetDH($accountName: String, $workspaceName: String) {
+  workspaceResetDH(accountName: $accountName, workspaceName: $workspaceName) {
+    error {
+      message
+      code
+    }
+  }
+}

@@ -1,0 +1,8 @@
+mutation installAppDH($appName: String) {
+  installAppDH(appName: $appName) {
+    error {
+      message
+      code
+    }
+  }
+}

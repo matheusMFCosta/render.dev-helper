@@ -1,4 +1,4 @@
-import { Apps } from '@vtex/api'
+import { Apps, Workspaces } from '@vtex/api'
 
 export const unlinkApp = async ({ appName }, ctx) => {
   const client = new Apps(ctx.vtex)
@@ -17,5 +17,19 @@ export const uninstallAppDH = async ({ appName }, ctx) => {
   const client = new Apps(ctx.vtex)
   console.log(`client2`, appName)
   const response = await client.uninstallApp(appName)
+  return response ? { error: { message: 'error', code: '002' } } : {}
+}
+
+export const installAppDH = async ({ appName }, ctx) => {
+  const client = new Apps(ctx.vtex)
+  console.log(`client2`, appName)
+  const response = await client.installApp(appName)
+  return response ? { error: { message: 'error', code: '002' } } : {}
+}
+
+export const workspaceResetDH = async ({ accountName, workspaceName }, ctx) => {
+  const client = new Workspaces(ctx.vtex)
+  console.log(`client4`, accountName, workspaceName)
+  const response = await client.reset(accountName, workspaceName)
   return response ? { error: { message: 'error', code: '002' } } : {}
 }

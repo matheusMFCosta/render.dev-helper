@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Query } from 'react-apollo'
 import { Input } from 'gocommerce.styleguide'
-import getAccountByHost from './../getAccountByHost.gql'
+import getAccountByHost from './../queries/getAccountByHost.gql'
 
 export interface AccountProps {}
 

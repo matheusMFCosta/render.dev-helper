@@ -1,16 +1,28 @@
 import * as React from 'react'
+import { Mutation, Query } from 'react-apollo'
 import { StringValue } from 'react-values'
 import { Input, Button } from 'gocommerce.styleguide'
+import workspaceResetDH from './../queries/workspaceResetDH.gql'
+import getAccountByHost from './../queries/getAccountByHost.gql'
+console.log(`workspaceResetDH`, workspaceResetDH)
+console.log(`getAccountByHost`, getAccountByHost)
 import Cookies from 'js-cookie'
 
-export interface WorkspaceProps {}
+export interface WorkspaceProps {
+  accountData
+  workspaceResetDH: (
+    {
+      variables: { accountName, workspaceName }
+    }
+  ) => {}
+}
 
 export interface WorkspaceState {
   currentWorkspace: string
   showReloadMessage: boolean
 }
 
-export default class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
+class Workspace extends React.Component<WorkspaceProps, WorkspaceState> {
   state = { currentWorkspace: '', showReloadMessage: false }
 
   componentDidMount() {
@@ -28,12 +40,25 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
     }
   }
 
+  handleWorkspaceReset = async () => {
+    const { id } = this.props.accountData.getAccountByHost
+    const { currentWorkspace } = this.state
+    const {
+      data: { workspaceResetDH }
+    } = await this.props.workspaceResetDH({ variables: { accountName: id, workspaceName: currentWorkspace } })
+
+    if (!workspaceResetDH.error) location.reload()
+  }
+
   public render() {
     const { currentWorkspace, showReloadMessage } = this.state
     return (
       <div className="g-pa4">
-        <div className="g-mb2">
+        <div className="g-mb2 ">
           <Input label="Current workspace" disabled value={currentWorkspace} />
+          <Button style="danger" className="g-ml2" onClick={this.handleWorkspaceReset}>
+            Reset Workspace
+          </Button>
         </div>
         <div className="g-mb2 ">
           <StringValue defaultValue="">
@@ -52,3 +77,16 @@ export default class Workspace extends React.Component<WorkspaceProps, Workspace
     )
   }
 }
+
+export default props => (
+  <Mutation mutation={workspaceResetDH}>
+    {(workspaceResetDH, { loading, called, error }) => (
+      <>
+        {(loading || called) && !error && <span className="c-primary">We are reloading the page</span>}
+        <Query query={getAccountByHost}>
+          {({ data }) => <Workspace {...props} workspaceResetDH={workspaceResetDH} accountData={data} />}
+        </Query>
+      </>
+    )}
+  </Mutation>
+)

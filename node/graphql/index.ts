@@ -1,5 +1,5 @@
 import { getAccountInfo, getAccountByHost, getInstalledApps } from './query'
-import { unlinkApp, unlinkAllApps, uninstallAppDH } from './mutation'
+import { unlinkApp, unlinkAllApps, uninstallAppDH, installAppDH, workspaceResetDH } from './mutation'
 
 export const resolvers = {
   Query: {
@@ -10,6 +10,8 @@ export const resolvers = {
   Mutation: {
     unlinkApp: async (_, param, ctx, info) => await unlinkApp(param, ctx),
     unlinkAllApps: async (_, param, ctx, info) => await unlinkAllApps(param, ctx),
-    uninstallAppDH: async (_, param, ctx, info) => await uninstallAppDH(param, ctx)
+    uninstallAppDH: async (_, param, ctx, info) => await uninstallAppDH(param, ctx),
+    installAppDH: async (_, param, ctx, info) => await installAppDH(param, ctx),
+    workspaceResetDH: async (_, param, ctx, info) => await workspaceResetDH(param, ctx)
   }
 }
