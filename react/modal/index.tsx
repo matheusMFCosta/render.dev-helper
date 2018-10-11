@@ -12,26 +12,28 @@ class devHelper extends React.Component<devHelperProps, {}> {
     const permitedRole = 'system-admin'
     return (
       <Query query={query}>
-        {({ data: { getAccountInfo } }) => (
-          <>
-            {getAccountInfo &&
-              getAccountInfo.userRol === permitedRole && (
-                <div className="absolute z-max g-pt3 g-pl3">
-                  <BooleanValue>
-                    {({ value: isModalOpen, toggle }) => (
-                      <>
-                        {isModalOpen ? (
-                          <Modal toggle={toggle} accountInfo={getAccountInfo} />
-                        ) : (
-                          <ColapseModal toggle={toggle} />
-                        )}
-                      </>
-                    )}
-                  </BooleanValue>
-                </div>
-              )}
-          </>
-        )}
+        {({ data }) => {
+          const getAccountInfo = data.getAccountInfo
+          return (
+            getAccountInfo &&
+            getAccountInfo.userRol === permitedRole && (
+              <div className="absolute z-max g-pt3 g-pl3">
+                <BooleanValue>
+                  {({ value: isModalOpen, toggle }) => (
+                    <>
+                      {isModalOpen ? (
+                        <Modal toggle={toggle} accountInfo={getAccountInfo} />
+                      ) : (
+                        <ColapseModal toggle={toggle} />
+                      )}
+                    </>
+                  )}
+                </BooleanValue>
+              </div>
+            )
+          )
+        }}
+        }
       </Query>
     )
   }

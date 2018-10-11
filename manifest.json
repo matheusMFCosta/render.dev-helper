@@ -1,7 +1,7 @@
 {
   "name": "dev-helper",
   "vendor": "gocommerce",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "title": "Dev Helper",
   "description": "A plugIn to assist the development of apps at the GoCommerce enviroment",
   "mustUpdateAt": "2019-02-08",
