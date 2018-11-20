@@ -1,1 +1,1 @@
-Com o Mercado Pago, pague las páginas de pago en línea, envíenos un correo electrónico gratuito para su consulta y crédito.
+A plugIn to assist the development of apps at the GoCommerce enviroment
