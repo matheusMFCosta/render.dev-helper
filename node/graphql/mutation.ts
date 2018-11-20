@@ -1,4 +1,4 @@
-import { Apps, Workspaces } from '@vtex/api'
+import { Apps, Workspaces, Registry } from '@vtex/api'
 
 export const unlinkApp = async ({ appName }, ctx) => {
   const client = new Apps(ctx.vtex)
@@ -31,5 +31,16 @@ export const workspaceResetDH = async ({ accountName, workspaceName }, ctx) => {
   const client = new Workspaces(ctx.vtex)
   console.log(`client4`, accountName, workspaceName)
   const response = await client.reset(accountName, workspaceName)
+  return response ? { error: { message: 'error', code: '002' } } : {}
+}
+
+export const publishAppDH = async ({ appName }, ctx) => {
+  const registry = new Registry(ctx.vtex)
+  console.log('registry', await registry.getAppFile('gocommerce.admin', { endpoint: undefined }))
+  const splitedname = appName.split('@')
+  const cleint = new Apps(ctx.vtex)
+  console.log(`client4`, appName)
+  const response = await cleint.listAppFiles(splitedname[0], splitedname[1])
+  console.log('response', response)
   return response ? { error: { message: 'error', code: '002' } } : {}
 }

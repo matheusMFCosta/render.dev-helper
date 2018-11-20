@@ -1,0 +1,8 @@
+mutation publishAppDH($appName: String) {
+  publishAppDH(appName: $appName) {
+    error {
+      message
+      code
+    }
+  }
+}

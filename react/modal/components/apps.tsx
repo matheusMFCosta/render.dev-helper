@@ -3,6 +3,7 @@ import { Query, Mutation } from 'react-apollo'
 import query from './../queries/getInstalledApp.gql'
 import UnlinkApp from './../queries/unlinkApp.gql'
 import unlinkAllApps from './../queries/unlinkAllApps.gql'
+import publishAppDH from './../queries/publishAppDH.gql'
 import { appsMap } from '../types'
 import { Input, Button, IconSpinner } from 'gocommerce.styleguide'
 
@@ -11,6 +12,7 @@ export interface AppsProps {
   getInstalledApps: appsMap[]
   unLinkApp: ({ variables: object }) => {}
   unlinkAllApps: () => {}
+  publishAppDH: ({ variables: object }) => {}
 }
 
 export interface AppsState {}
@@ -28,6 +30,11 @@ class Apps extends React.Component<AppsProps, AppsState> {
       data: { unlinkAllApps }
     } = await this.props.unlinkAllApps()
     if (!unlinkAllApps.error) location.reload()
+  }
+  handleHandlePublish = async appName => {
+    const {
+      data: { unlinkAllApps }
+    } = await this.props.publishAppDH({ variables: { appName: appName } })
   }
 
   public render() {
@@ -58,6 +65,14 @@ class Apps extends React.Component<AppsProps, AppsState> {
                     >
                       Unlink
                     </Button>
+                    <Button
+                      className="dib"
+                      onClick={() =>
+                        this.handleHandlePublish(`${element.vendor}.${element.name}@${element.version.split('+')[0]}`)
+                      }
+                    >
+                      Pubish
+                    </Button>
                   </div>
                 </div>
               ))
@@ -70,19 +85,31 @@ class Apps extends React.Component<AppsProps, AppsState> {
 }
 
 export default props => (
-  <Mutation mutation={unlinkAllApps}>
-    {(unlinkAllApps, { loading: allLoadin, called: allCalled, error: allerror }) => (
-      <Mutation mutation={UnlinkApp}>
-        {(unLinkApp, { loading, called, error }) => (
-          <>
-            {(allLoadin || allCalled) && !allerror && <span className="c-primary">We are reloading the page</span>}
-            {(loading || called) && !error && <span className="c-primary">We are reloading the page</span>}
-            <Query query={query} variables={{ category: 'wooow' }}>
-              {({ data, loading }) => (
-                <Apps {...props} {...data} unLinkApp={unLinkApp} loadingQuery={loading} unlinkAllApps={unlinkAllApps} />
-              )}
-            </Query>
-          </>
+  <Mutation mutation={publishAppDH}>
+    {(publishAppDH, { loading: PAloading, called: PACalled, error: PAerror }) => (
+      <Mutation mutation={unlinkAllApps}>
+        {(unlinkAllApps, { loading: allLoadin, called: allCalled, error: allerror }) => (
+          <Mutation mutation={UnlinkApp}>
+            {(unLinkApp, { loading, called, error }) => (
+              <>
+                {(allLoadin || allCalled) && !allerror && <span className="c-primary">We are publishing your app</span>}
+                {(allLoadin || allCalled) && !allerror && <span className="c-primary">We are reloading the page</span>}
+                {(loading || called) && !error && <span className="c-primary">We are reloading the page</span>}
+                <Query query={query} variables={{ category: 'wooow' }}>
+                  {({ data, loading }) => (
+                    <Apps
+                      {...props}
+                      {...data}
+                      unLinkApp={unLinkApp}
+                      loadingQuery={loading}
+                      unlinkAllApps={unlinkAllApps}
+                      publishAppDH={publishAppDH}
+                    />
+                  )}
+                </Query>
+              </>
+            )}
+          </Mutation>
         )}
       </Mutation>
     )}

@@ -1,7 +1,7 @@
 {
   "name": "dev-helper",
   "vendor": "gocommerce",
-  "version": "0.0.9",
+  "version": "0.0.14",
   "title": "Dev Helper",
   "description": "A plugIn to assist the development of apps at the GoCommerce enviroment",
   "mustUpdateAt": "2019-02-08",
@@ -45,6 +45,9 @@
     },
     {
       "name": "read-write-workspace"
+    },
+    {
+      "name": "read-infra-service"
     }
   ]
 }

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Button, IconCaret, IconArc, IconCloseAlt, IconCheck } from 'gocommerce.styleguide'
+import Cookies from 'js-cookie'
 import { colapseModalStatu } from '../types'
 
 const Icon = (props: { status: colapseModalStatu }) =>
@@ -13,12 +14,15 @@ export interface ColapseModalPropsProps {
 
 export interface ColapseModalPropsState {
   status: colapseModalStatu
+  currentWorkspace: string
 }
 
 export default class ColapseModalProps extends React.Component<ColapseModalPropsProps, ColapseModalPropsState> {
   state: ColapseModalPropsState = {
+    currentWorkspace: '',
     status: 'none'
   }
+
   handleStateChange = (newState: colapseModalStatu) => setTimeout(this.setState({ status: newState }), 1500)
 
   eventListener(eventBuffer) {
@@ -43,21 +47,25 @@ export default class ColapseModalProps extends React.Component<ColapseModalProps
   }
 
   componentDidMount() {
+    const cookies = Cookies.get()
+    const currentWorkspace = cookies['VtexCustomWorkspace'] || cookies['VtexWorkspace']
+
     const eventListener = event => this.eventListener(event)
-    fetch(
-      'https://gocommerce.gocommerce.com/_v/sse/vtex.builder-hub:*:react2,pages0,build.status?workspace=matheus03'
-    ).then(response => {
-      var reader = response.body.getReader()
-      var bytesReceived = 0
-      return reader.read().then(function processResult(result) {
-        if (result.done) {
-          return
-        }
-        eventListener(result.value.buffer)
-        bytesReceived += result.value.length
-        return reader.read().then(processResult)
-      })
-    })
+    const host = window && window.location && window.location.host
+    fetch(`https://${host}/_v/sse/vtex.builder-hub:*:react2,pages0,build.status?workspace=${currentWorkspace}`).then(
+      response => {
+        var reader = response.body.getReader()
+        var bytesReceived = 0
+        return reader.read().then(function processResult(result) {
+          if (result.done) {
+            return
+          }
+          eventListener(result.value.buffer)
+          bytesReceived += result.value.length
+          return reader.read().then(processResult)
+        })
+      }
+    )
   }
 
   public render() {

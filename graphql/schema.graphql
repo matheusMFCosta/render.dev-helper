@@ -64,4 +64,5 @@ type Mutation {
   uninstallAppDH(appName: String): MutationType
   installAppDH(appName: String): MutationType
   workspaceResetDH(accountName: String, workspaceName: String): MutationType
+  publishAppDH(appName: String): MutationType
 }
